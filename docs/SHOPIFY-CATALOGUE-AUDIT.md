@@ -16,17 +16,19 @@ policy pages, payments and shipping.
 | Collections | **47** |
 | CMS pages | 3 |
 | Blog posts | 3 |
-| Locale URL sets | **5** — `/`, `/et/`, `/ru/`, `/en-lv/`, `/en-lt/` |
-| Indexable URLs, approximate | **~1,400** |
+| Locale URL sets | **6** — `/`, `/et/`, `/ru/`, `/en-lv/`, `/en-lt/`, `/en-fi/` |
+| Indexable URLs, counted | **1,686** (see `tools/url-inventory.mjs`) |
 
 The catalogue is small enough that PostgreSQL full-text search will be more
 than adequate — no case for a paid search service. It is also small enough
 that a bad migration would be obvious, which is good news.
 
-The two extra locales (`en-lv`, `en-lt`) were not in the original plan of
-EN/ET/RU. They are Shopify Markets variants. Decide deliberately whether to
-keep Latvian and Lithuanian market URLs or redirect them to `/en/` — either
-is defensible, but leaving them to 404 is not.
+Three extra locales (`en-lv`, `en-lt`, `en-fi`) were not in the original plan
+of EN/ET/RU. They are Shopify Markets variants, and together they account for
+834 of the 1,686 legacy URLs — half the site. Decide deliberately whether to
+keep Latvian, Lithuanian and Finnish market URLs or redirect them to the
+English default; either is defensible, but leaving half the URL surface to
+404 is not.
 
 ## The three real problems
 

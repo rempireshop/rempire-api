@@ -11,3 +11,5 @@ appsettings.*.local.json
 data/shopify-snapshot/
 node_modules/
 bun.lock
+
+data/urls/
