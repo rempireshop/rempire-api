@@ -6,3 +6,8 @@ obj/
 appsettings.*.local.json
 *.log
 .DS_Store
+
+# fetched shopify snapshot
+data/shopify-snapshot/
+node_modules/
+bun.lock
