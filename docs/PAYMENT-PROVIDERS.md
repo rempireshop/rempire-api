@@ -143,14 +143,39 @@ the fallback that saves ~€17/month.
 earlier figures may differ. Whether rates vary by plan is unclear — the page
 says "starting from … based on your plan" but publishes one set of numbers.*
 
+## Restricted-business check — cleared
+
+PSP restricted-business lists routinely block **ingestible supplements** on
+remote payments (SumUp's Estonian list names *toidulisandid* and tobacco;
+others are similar). Hair/beard growth supplements would have been a real
+exposure for a shop like this.
+
+**Checked against the live catalogue on 23.08: zero ingestibles.** All 224
+products are topical — shampoo, conditioner, styling, beard/face/body care,
+perfume and merch. No capsules, tablets, gummies or food supplements in any
+title, product type or description, in any language. No PSP onboarding risk
+on this front, whichever provider we choose.
+
+(Note for anyone re-checking: SumUp's **US** restricted list is far harsher
+and bars "hair growth products" outright. That list is issued by SumUp Inc./
+Fifth Third Bank and does **not** apply to an Estonian merchant.)
+
 ## For the physical shop
 
 Renat's till has no software, and the platform will become the inventory
 system. Two card-acceptance options worth pricing when that becomes real:
-**Revolut** (Tap to Pay on iPhone, or Terminal €189 / Lite €139 + VAT;
-in-person EEA consumer 0.8% + €0.02) and **SumUp** (in-person 1.69% PAYG,
-0.89% on Payments Plus €19/mo). Revolut's in-person rate is the better of
-the two, and it is already in the stack if we use it for anything else.
+
+| | Revolut | SumUp |
+|---|---|---|
+| In-person rate | **0.8% + €0.02** (EEA consumer) | 1.69% PAYG → 0.89% on Payments Plus (€19/mo) |
+| Cheapest hardware | Tap to Pay on iPhone (+€0.08/tx), Lite Terminal €139 | **Solo Lite €34**, Solo €79, Terminal €169 (ex VAT) |
+| Monthly | €10 (Basic) | €0 |
+
+Revolut wins on rate, SumUp on entry cost — Solo Lite at €34 is hard to beat
+for a shop doing a handful of card sales a day, and its Payments Plus
+break-even is stated as €2,800/mo in card volume, which this shop will not
+clear. At low offline volume SumUp PAYG is likely cheaper overall; at higher
+volume Revolut's rate wins. Decide with real offline numbers, not now.
 
 ## Providers that would be a mistake
 
@@ -162,11 +187,20 @@ the two, and it is already in the stack if we use it for anything else.
 - **Paysera** — its 0.90% "system fee" stacks on top of the card rate,
   making it the most expensive at 100% cards. No PayPal. Funds sit in a
   Paysera wallet costing €5/month.
-- **Nexi / Nets Easy** — **confirmed**: the live registration form's country
-  picker offers only Sweden, Denmark, Norway, Germany, Austria and "Other".
-  An Estonian OÜ cannot self-serve. Nexi has a Tallinn entity under the Nets
-  brand (legacy EstCard) but it is contact-sales with zero published
-  pricing, and there is no evidence Nexi Checkout is sold in Estonia at all.
+- **Nexi Checkout / Nets Easy** — **confirmed dead three ways**: the live
+  registration country picker offers only Sweden, Denmark, Norway, Germany,
+  Austria and "Other"; the portal's own JS country enum is `SWE, DNK, NOR,
+  DEU, AUT`; and Nexi's own vendor listing names those same five countries.
+  It would not help even if available — **no Baltic bank links at all** (its
+  payment-method enum has none; the only route to Estonian bank payments is
+  Trustly, which needs a separate agreement). Contracting entity would be
+  Nets Denmark A/S under Danish law. Lock-in is the harshest found:
+  **12-month initial term auto-renewing for another 12 unless cancelled 3
+  months before expiry**, plus a contractual right to raise fees **5% a year
+  without notice**. Nets does sell a legacy card-only gateway in Estonia
+  (Nets Estonia / iPay "E-Makseterminal", ex-EstCard, T+1 settlement) but
+  cards only, quote required — which leaves bank links, wallets and PayPal
+  still unsolved.
 - **SumUp online** — signable in Estonia with a genuinely open REST API, but
   **2.10% online** (1.69% on Payments Plus at €19/mo) with no Baltic bank
   links. Wrong for this checkout; its in-person rate is worth keeping in
