@@ -94,3 +94,13 @@ vercel.com/pricing + fair-use guidelines · railway.com/pricing ·
 developers.cloudflare.com/r2/pricing · resend.com/pricing ·
 platform.claude.com Claude API pricing · apps.shopify.com (T Lab, Judge.me,
 SearchPie) · weglot.com/pricing
+
+## Amendment 23.08
+
+Client-facing /demo now shows Montonio as 50-85 EUR/mo and the new-stack
+total as 60-110 EUR/mo: the refundable bank-link rate (0.15) replaces the
+non-refundable 0.05 (a cosmetics shop must be able to refund), and the upper
+bound assumes the current all-cards reality (1.29% + 0.20 on 4,000 EUR + 80
+txns = ~68 EUR + 14.99 subscription). Savings restated as ~30-140 EUR/mo
+with bank-link adoption named as the lever. Rates re-verified against
+montonio.com/pricing on 23.08.2026 (unchanged).
