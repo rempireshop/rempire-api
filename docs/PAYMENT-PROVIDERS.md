@@ -1,0 +1,154 @@
+# Payment providers — is Montonio right for Rempire?
+
+Researched 23.08.2026 against official pricing pages. Basis: €4,000/mo
+online, 80 transactions, €50 AOV, Estonian OÜ, custom stack (API, not a
+Shopify plugin), sells EE/LV/LT/FI and wants wider EU. All figures ex-VAT
+(reclaimable — the company is VAT registered).
+
+## Verdict
+
+**Cheaper than Montonio exists. Better, for this shop, probably does not.**
+
+Stay on **Montonio Core** unless PayPal turns out to be non-negotiable, or
+we are willing to trade developer time for roughly €240/year.
+
+## Cost at this volume
+
+Mix (i) = 48 bank + 32 card. Mix (ii) = 80 card (today's reality on Shopify,
+which offers no bank links at all).
+
+| Provider | Mix (i) 60/40 | Mix (ii) 100% card |
+|---|---|---|
+| LHV direct + SEB/EveryPay cards | **€24.00** | **€54.00** |
+| **Montonio Core** | **€44.43** | €82.59 |
+| Montonio Core, refundable bank payments | €49.23 | €82.59 |
+| Montonio Starter | €53.43 | €91.59 |
+| MakeCommerce | €60.40 | €76.00 |
+| Paysera | €65.00 | €107.00 |
+| Mollie | €70.40 | €92.00 |
+| Stripe (no EE bank links) | €80.00 | €80.00 |
+
+Montonio Core arithmetic, mix (i): `14.99 + 48×0.05 + 1.29%×1600 +
+32×0.20 = €44.43`. Mix (ii): `14.99 + 1.29%×4000 + 80×0.20 = €82.59`.
+
+**A third mix is the one that matters.** Rempire is 100% cards today only
+because Shopify Payments offers nothing else. Estonian shoppers prefer bank
+links, so the realistic post-migration mix is nearer 80/20, where Montonio
+Core costs **€31.71/mo**. Montonio's advantage grows as bank-link share
+rises — which is exactly the direction this migration pushes.
+
+## Two findings that overturn assumptions
+
+**1. Montonio charges a flat fee per bank payment; MakeCommerce charges a
+percentage.** €0.05 flat (Core) versus 0.9% + €0.05. At €50 AOV that is
+**€0.05 vs €0.50 — ten times** the cost. Any intuition that "MakeCommerce is
+the cheap Estonian one" is wrong for bank links; it is marginally cheaper on
+pure cards only.
+
+**2. Neither Montonio nor MakeCommerce supports PayPal.** Renat selected
+PayPal as required in q16. See the open decision below.
+
+## Why Montonio still wins on balance
+
+- **One API covers what would otherwise be four integrations**: bank links
+  across EE/LV/LT/FI/PL, cards (via Adyen), Apple/Google Pay, BNPL — *and*
+  shipping labels with a parcel-machine picker for Omniva/DPD/SmartPosti at
+  €1.99+/parcel with no monthly fee. Renat wants all three carriers plus
+  courier; building those integrations ourselves is realistically 40–80
+  hours, which dwarfs the ~€240/year saved by going direct.
+- **Finnish bank links.** No Estonian bank pangalink reaches Finland. Rempire
+  already offers free shipping to FI, so this is a live requirement.
+- **Best published card rate of any aggregator here** (1.29% + €0.20).
+- **Plain bank payments settle directly to the shop's own account** —
+  minimal lock-in, which matters given the handover plan.
+- KYC 1–2 business days; public docs and a sandbox.
+
+## The cheaper route, and its catch
+
+**LHV direct** is genuinely cheaper: €0 setup, €0 monthly, €0.05/tx, free
+refunds, first six months free, one contract covering LHV, Swedbank, SEB,
+Luminor, Coop, Citadele, Artea across all three Baltic states, plus bundled
+delivery integrations.
+
+The catches, in order of seriousness:
+
+1. **Contract terms.** LHV's published e-commerce card conditions include a
+   **10% pledge** (clause 14.3 — funds equal to 10% of average monthly
+   transactions over the past six months) and allow the bank to **suspend
+   payouts for up to six months after termination** (clause 12.7).
+   Indefinite term, 30 days' notice. Read before signing.
+2. **Legacy protocol.** Bank links use the old iPizza form-POST + RSA
+   signing scheme, with no maintained .NET library — we would write and
+   maintain the signing ourselves.
+3. **Card rates are "by agreement"** — quote required, so the €24/mo figure
+   assumes SEB/EveryPay card pricing alongside.
+4. **No Finnish coverage.**
+
+## Open decision: PayPal
+
+Renat ticked PayPal in q16. Montonio does not support it. Three options:
+
+1. **Drop it.** PayPal direct in Estonia is **3.4% + €0.35** — at €50 AOV
+   that is €2.05 per order, a **4.1% effective rate, roughly triple** the
+   card cost. Recommended unless customers actually ask for it.
+2. **Montonio + a separate PayPal Business integration.** Extra integration,
+   extra reconciliation, but keeps everyone happy.
+3. **SEB/EveryPay instead**, which does support PayPal (€0.10/tx) with cards
+   at 1.35% and published pricing.
+
+Worth asking Renat how many customers have ever requested PayPal before
+paying for it.
+
+## Providers that would be a mistake
+
+- **Klarna** — Estonia is not a Klarna consumer market (its own
+  purchase-country table lists FI but omits EE/LV/LT). Estonian customers
+  could not use it.
+- **Adyen** — no Baltic bank links at all, undisclosed minimum monthly
+  invoice, approval-gated onboarding. Far below its target size.
+- **Paysera** — its 0.90% "system fee" stacks on top of the card rate,
+  making it the most expensive at 100% cards. No PayPal. Funds sit in a
+  Paysera wallet costing €5/month.
+- **Nexi / Nets Easy** — merchant registration appears limited to Nordic
+  countries; an Estonian OÜ likely cannot onboard. *Not fully confirmed.*
+- **SumUp online** — no Baltic bank links, ~2.5% online. Its SoftPOS could
+  suit the physical shop, but it is wrong for this checkout.
+- **Mollie** — not a mistake, just no advantage: Baltic Pay by Bank costs
+  €0.70/tx at €50 versus Montonio's €0.05, worse card rate (1.80%), only
+  launched in the Baltics 01.06.2026, and does not publish which Estonian
+  banks it covers.
+- **Stripe** — cannot do Estonian bank links. Worth adding later as a second
+  rail only if Western Europe becomes real; note its 1.5% headline covers
+  only standard EEA consumer cards (premium/commercial are 2.8% + €0.25).
+
+## Not verified — check before relying
+
+- Revolut Business plan fees and whether its Pay by Bank covers Baltic banks
+  (official EE pages returned 403; rates came from a press release).
+- SumUp's Estonian online rate (UK-focused third-party blogs only).
+- Whether an Estonian OÜ can onboard with Nexi/Nets.
+- Montonio's exact per-parcel shipping price list (visible only after
+  activation), contract length, notice period, payout fee.
+- SEB bank-link per-transaction fee inside the modern e-commerce/EveryPay
+  product ("according to agreement"). Note SEB has **two distinct products**:
+  legacy standalone pangalink (€65 setup + 1%, min €0.13, max €3.20) and the
+  modern e-commerce product (quote required).
+- Card acquiring rates for LHV / Swedbank / Luminor — all quote required.
+- Paysera's fee table shows a €0.40 system-fee cap while its page text says
+  the fee is uncapped for cards; our Paysera figures assume the cap and may
+  be understated.
+- The 60/40 and 80/20 mixes are scenarios, not measured data. The widely
+  cited "~80% bank link" figure traces to agency blogs, not primary research.
+
+## Sources
+
+montonio.com/pricing · help.montonio.com (supported banks, card payments,
+refundable bank payments) · montonio.com/shipping · docs.montonio.com ·
+maksekeskus.ee/hinnad + developer.makecommerce.net · lhv.ee/en/lhv-bank-link
++ LHV e-commerce card conditions + partners.lhv.ee/et/banklink ·
+seb.ee e-commerce + pangalink · cooppank.ee bank link · Luminor price list ·
+support.every-pay.com supported methods · stripe.com/ee/pricing +
+docs.stripe.com/payments/pay-by-bank · mollie.com/en/pricing + Baltics
+launch · adyen.com/pricing · paysera.com payment gateway fees ·
+docs.klarna.com purchase countries · paypal.com/ee business fees ·
+developer.sumup.com
