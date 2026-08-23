@@ -99,6 +99,59 @@ Renat ticked PayPal in q16. Montonio does not support it. Three options:
 Worth asking Renat how many customers have ever requested PayPal before
 paying for it.
 
+## Revolut Business — the one genuine rival on cards
+
+Verified separately (Estonian locale pages, 23.08). An Estonian OÜ **can**
+sign up self-serve, review in ~24h, and the Merchant API is fully public
+with a sandbox and webhooks.
+
+| | |
+|---|---|
+| Monthly | **€10** (Basic; no free plan in Estonia). Merchant API included |
+| EEA consumer cards | **1% + €0.20** — better than Montonio's 1.29% |
+| Commercial / international cards | 2.8% + €0.20 |
+| Apple/Google Pay | included, no extra fee |
+| Payout | 24h (first payout held 7 days), free to the Revolut Business account |
+| Chargeback | €15, refunded if won. Arbitration loss **€475** |
+| Refunds | free, but the original processing fee is not returned |
+
+**At today's 100% cards it is genuinely cheaper**: `10 + 1%×4000 +
+80×0.20` = **€66/mo** versus Montonio's €82.59 — about €17/month.
+
+**But it loses the moment bank links appear, which is the entire point of
+this migration.** Revolut's Pay by Bank covers **Lithuania and Finland
+only — no Estonia, no Latvia, no LHV, Swedbank, SEB or Coop**. So every
+Estonian transaction stays a card transaction. Compare:
+
+| Mix | Montonio Core | Revolut |
+|---|---|---|
+| 100% cards (today) | €82.59 | **€66.00** |
+| 60/40 | **€44.43** | €66.00 (no EE bank links) |
+| 80/20 | **€31.71** | €66.00 |
+
+It also has **no PayPal**, **no shipping labels**, and real settlement
+lock-in: the Merchant account is a sub-account of the Revolut Business
+account, so funds can only move into Revolut. Splitting cards to Revolut and
+bank links to Montonio costs *more* than Montonio alone (€49.39 vs €44.43),
+because Montonio's subscription still applies.
+
+**Conclusion: not worth switching to, but worth knowing.** If bank-link
+adoption disappoints after launch and the mix stays card-heavy, Revolut is
+the fallback that saves ~€17/month.
+
+*Caveat: the Revolut fee pages read are the version applying from 22.09.2026;
+earlier figures may differ. Whether rates vary by plan is unclear — the page
+says "starting from … based on your plan" but publishes one set of numbers.*
+
+## For the physical shop
+
+Renat's till has no software, and the platform will become the inventory
+system. Two card-acceptance options worth pricing when that becomes real:
+**Revolut** (Tap to Pay on iPhone, or Terminal €189 / Lite €139 + VAT;
+in-person EEA consumer 0.8% + €0.02) and **SumUp** (in-person 1.69% PAYG,
+0.89% on Payments Plus €19/mo). Revolut's in-person rate is the better of
+the two, and it is already in the stack if we use it for anything else.
+
 ## Providers that would be a mistake
 
 - **Klarna** — Estonia is not a Klarna consumer market (its own
@@ -109,10 +162,17 @@ paying for it.
 - **Paysera** — its 0.90% "system fee" stacks on top of the card rate,
   making it the most expensive at 100% cards. No PayPal. Funds sit in a
   Paysera wallet costing €5/month.
-- **Nexi / Nets Easy** — merchant registration appears limited to Nordic
-  countries; an Estonian OÜ likely cannot onboard. *Not fully confirmed.*
-- **SumUp online** — no Baltic bank links, ~2.5% online. Its SoftPOS could
-  suit the physical shop, but it is wrong for this checkout.
+- **Nexi / Nets Easy** — **confirmed**: the live registration form's country
+  picker offers only Sweden, Denmark, Norway, Germany, Austria and "Other".
+  An Estonian OÜ cannot self-serve. Nexi has a Tallinn entity under the Nets
+  brand (legacy EstCard) but it is contact-sales with zero published
+  pricing, and there is no evidence Nexi Checkout is sold in Estonia at all.
+- **SumUp online** — signable in Estonia with a genuinely open REST API, but
+  **2.10% online** (1.69% on Payments Plus at €19/mo) with no Baltic bank
+  links. Wrong for this checkout; its in-person rate is worth keeping in
+  mind for the shop. *Note: SumUp's own Estonian help centre says 0.99%
+  in-person on Payments Plus while its product page says 0.89% — two
+  official sources disagree.*
 - **Mollie** — not a mistake, just no advantage: Baltic Pay by Bank costs
   €0.70/tx at €50 versus Montonio's €0.05, worse card rate (1.80%), only
   launched in the Baltics 01.06.2026, and does not publish which Estonian
@@ -123,10 +183,12 @@ paying for it.
 
 ## Not verified — check before relying
 
-- Revolut Business plan fees and whether its Pay by Bank covers Baltic banks
-  (official EE pages returned 403; rates came from a press release).
-- SumUp's Estonian online rate (UK-focused third-party blogs only).
-- Whether an Estonian OÜ can onboard with Nexi/Nets.
+- ~~Revolut, SumUp, Nexi~~ — **now verified** against Estonian-locale
+  official pages; see the sections above. Remaining Revolut gaps: whether
+  acquiring rates truly vary by plan, rolling-reserve triggers, contract
+  term beyond monthly billing. Remaining SumUp gaps: non-EEA/commercial card
+  rates, whether the 2.10% has a fixed component, payout/refund/chargeback
+  fees, KYC turnaround. Nexi: all commercials remain quote-only.
 - Montonio's exact per-parcel shipping price list (visible only after
   activation), contract length, notice period, payout fee.
 - SEB bank-link per-transaction fee inside the modern e-commerce/EveryPay
