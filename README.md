@@ -1,31 +1,24 @@
 # rempire-api
 
-REMPIRE shop rebuild — the commerce backend. Skeleton for now; implementation
-starts once Renat's questionnaire answers (see `rempire-web` → `/qa`) fix the
-scope.
+**Not used — kept as a research archive.** The planned separate commerce
+backend (ASP.NET Core on .NET 10) was never built. The REMPIRE shop that went
+live on `https://rempireshop.com` on 08.10.2026 runs entirely in
+[`rempire-web`](https://github.com/rempireshop/rempire-web): Next.js 15 on
+Vercel, its API as ~70 route handlers under `src/app/api/**`, Postgres on
+Railway, Montonio for payments and shipping, Resend for e-mail. Start with
+`rempire-web/README.md` and `rempire-web/docs/SYSTEM-MAP.md`.
 
-## Planned stack
+## What is still worth reading here
 
-Per `REMPIRE Commerce Platform — Claude Code Master Build Prompt.md`:
+- `docs/PAYMENT-PROVIDERS.md`, `docs/COST-COMPARISON.md` — the payment and
+  point-of-sale research from August 2026 (Montonio, Stripe, Revolut, SumUp,
+  Nexi, the restricted-business check).
+- `docs/BARCODE-SCANNING.md` — hardware wedge first, camera as the companion;
+  the admin's stock scanner at `/admin/scan` followed it.
+- `docs/SHIPPING-RATES.md` — carrier tariffs read on 27.08.2026 (superseded
+  by the Montonio contract prices in `rempire-web`).
+- `docs/SHOPIFY-CATALOGUE-AUDIT.md`, `docs/PORTABILITY-AND-HANDOVER.md`,
+  `data/urls`, `tools/` — the Shopify catalogue and URL inventory used to plan
+  the move.
 
-- ASP.NET Core on .NET 10 LTS, EF Core, PostgreSQL (Npgsql)
-- OpenAPI, structured validation/logging, health endpoints, rate limiting
-- Hosting: Railway (API + PostgreSQL), Cloudflare R2 for media/documents
-- Payment abstraction (Montonio/Stripe candidates), shipping abstraction
-  (Montonio Shipping first candidate), Resend for email
-- Migration tooling from the existing Shopify shop (rempireshop.com)
-
-Reference projects: `Estoria` (backend patterns), `estoria-luxury-builders`.
-
-## Structure (planned)
-
-```
-src/Rempire.Api/          ASP.NET Core host
-src/Rempire.Domain/       commerce domain model
-src/Rempire.Infrastructure/  EF Core, providers, integrations
-tests/
-docs/
-```
-
-Nothing here is scaffolded yet on purpose — the domain model follows the
-answers, not the other way round.
+Nothing in this repository is deployed, and no environment reads it.
